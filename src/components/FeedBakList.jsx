@@ -6,10 +6,8 @@ function FeedBackList({ feedBacks }) {
   return (
     <div className="feedback-list">
       {
-      console.log("???????????"),
       feedBacks.map((item) => (
-          console.log("item  : "+ item),
-        <FeedBackItem item={item} />
+        <FeedBackItem key={item.id} item={item} />
       ))}
     </div>
   );
