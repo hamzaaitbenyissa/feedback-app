@@ -5,11 +5,17 @@ import Header from "./components/Header";
 import feedBakData from "./data/feedBackData";
 function App() {
   const [feedBacks, setFeedBacks] = useState(feedBakData);
+
+  const handledelete = (id) => {
+    window.alert("Are you sure taht you want to delete this item??");
+    setFeedBacks(feedBacks.filter((item) => item.id != id));
+  };
+
   return (
     <>
       <Header />
       <div className="container">
-        <FeedBackList feedBacks={feedBacks} />
+        <FeedBackList handledelete={handledelete} feedBacks={feedBacks} />
       </div>
     </>
   );

@@ -1,13 +1,14 @@
 import React from "react";
 import FeedBackItem from "./FeedBackItem";
 
-function FeedBackList({ feedBacks }) {
+function FeedBackList({ feedBacks,handledelete }) {
 
+  
   return (
     <div className="feedback-list">
       {
       feedBacks.map((item) => (
-        <FeedBackItem key={item.id} item={item} />
+        <FeedBackItem handledelete={handledelete} key={item.id} item={item} />
       ))}
     </div>
   );
