@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v1 } from "uuid";
 import "./App.css";
 import FeedbackForm from "./components/FeedbackForm";
 import FeedBacksState from "./components/FeedBacksState";
@@ -13,12 +14,23 @@ function App() {
     setFeedBacks(feedBacks.filter((item) => item.id != id));
   };
 
+  const handleadd = (rating1, feed) => {
+    console.log(feedBacks);
+    const newfeed = {
+      id: v1(),
+      rating: rating1,
+      text: feed,
+    };
+    feedBacks.push(newfeed)
+    setFeedBacks([newfeed,...feedBacks]);
+  };
+
   return (
     <>
       <Header />
       <div className="container">
-        <FeedbackForm/>
-        <FeedBacksState feedBacks={feedBacks}/>
+        <FeedbackForm handleadd={handleadd} />
+        <FeedBacksState feedBacks={feedBacks} />
         <FeedBackList handledelete={handledelete} feedBacks={feedBacks} />
       </div>
     </>
