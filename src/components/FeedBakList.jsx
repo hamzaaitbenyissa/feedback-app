@@ -7,7 +7,6 @@ import FeedBackItem from "./FeedBackItem";
 function FeedBackList() {
 
   const {feedback}=useContext(FeedbackContext)
-  const {handledelete}=useContext(FeedbackContext)
 
   if (!feedback || feedback.length === 0) {
     return <p>No Feedback Yet</p>
@@ -19,7 +18,6 @@ function FeedBackList() {
         {feedback.map((item) => (
           <motion.div key={item.id} animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }}>
             <FeedBackItem
-              handledelete={handledelete}
               key={item.id}
               item={item}
             />
