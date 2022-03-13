@@ -3,7 +3,7 @@ import RatingSelect from "./RatingSelect";
 import Button from "./shared/Button";
 import Card from "./shared/Card";
 
-function FeedbackForm({handleadd}) {
+function FeedbackForm({ handleadd }) {
   const [Text, setText] = useState("");
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
@@ -23,11 +23,13 @@ function FeedbackForm({handleadd}) {
     }
   };
 
-  const submit=(e)=>{
+  const submit = (e) => {
     e.preventDefault();
-    handleadd(rating,Text)
-  }
+    handleadd(rating, Text);
+    setText("");
+    setBtnDisabled(true);
 
+  };
 
   return (
     <Card>
