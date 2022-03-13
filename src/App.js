@@ -7,12 +7,9 @@ import FeedBacksState from "./components/FeedBacksState";
 import FeedBackList from "./components/FeedBakList";
 import Header from "./components/Header";
 import { FeedbackProvider } from "./context/FeedbackContext";
-import feedBakData from "./data/feedBackData";
 import AboutPage from "./pages/AboutPage";
 
 function App() {
-  const [feedBacks, setFeedBacks] = useState(feedBakData);
-
   return (
     <FeedbackProvider>
       <BrowserRouter>

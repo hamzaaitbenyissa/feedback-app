@@ -4,10 +4,21 @@ import { v1 } from "uuid";
 const FeedbackContext = createContext();
 
 export const FeedbackProvider = ({ children }) => {
-  const [feedback, setfeedback] = useState([]);
+  const [feedback, setfeedback] = useState([
+    {
+      id: 1,
+      text: "this is the feedback 1",
+      rating: 8,
+    },
+    {
+      id: 2,
+      text: "this is the feedback 2",
+      rating: 7,
+    },
+  ]);
 
   const handledelete = (id) => {
-    setfeedback(feedback.filter((item) => item.id != id));
+    setfeedback(feedback.filter((item) => item.id !== id));
   };
 
   // handle add action
@@ -34,11 +45,7 @@ export const FeedbackProvider = ({ children }) => {
       text: updateditem.Text,
     };
 
-    setfeedback(
-      feedback.map((item) =>
-        item.id === id ? newfeed : item
-      )
-    );
+    setfeedback(feedback.map((item) => (item.id === id ? newfeed : item)));
   };
   //set item to be edited
   const editfeedback = (item) => {
