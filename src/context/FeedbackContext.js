@@ -5,6 +5,10 @@ const FeedbackContext = createContext();
 
 export const FeedbackProvider = ({ children }) => {
 
+  const [feedback, setfeedback] = useState([]);
+  const [isloading, setisLoading] = useState(true)
+
+
   useEffect(() => {
     fetch("http://localhost:5000/feedbacks")
       .then(
@@ -12,7 +16,11 @@ export const FeedbackProvider = ({ children }) => {
           res.json()
             .then(
               (result) => {
-                setfeedback(result)
+                setTimeout(() => {
+                  setfeedback(result)
+                  setisLoading(false)
+                }, 1000);
+
               }
             )
         },
@@ -22,7 +30,7 @@ export const FeedbackProvider = ({ children }) => {
       )
   }, []);
 
-  const [feedback, setfeedback] = useState([]);
+
 
   const handledelete = (id) => {
     fetch("http://localhost:5000/feedbacks/" + id, { method: 'DELETE' })
@@ -98,7 +106,7 @@ export const FeedbackProvider = ({ children }) => {
       body: JSON.stringify(newfeed)
     };
 
-    fetch("http://localhost:5000/feedbacks/"+id, requestOptions)
+    fetch("http://localhost:5000/feedbacks/" + id, requestOptions)
       .then(
         (res) => {
           res.json().then(
@@ -131,7 +139,8 @@ export const FeedbackProvider = ({ children }) => {
         feedback,
         editfeedback,
         feedbackEdit,
-        handleupdate
+        handleupdate,
+        isloading
 
       }}
     >
