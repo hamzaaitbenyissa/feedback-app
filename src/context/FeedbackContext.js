@@ -1,25 +1,50 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { v1 } from "uuid";
 
 const FeedbackContext = createContext();
 
 export const FeedbackProvider = ({ children }) => {
-  const [feedback, setfeedback] = useState([
-    {
-      id: 1,
-      text: "this is the feedback 1",
-      rating: 8,
-    },
-    {
-      id: 2,
-      text: "this is the feedback 2",
-      rating: 7,
-    },
-  ]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/feedbacks")
+      .then(
+        (res) => {
+          res.json()
+            .then(
+              (result) => {
+                setfeedback(result)
+              }
+            )
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+  }, []);
+
+  const [feedback, setfeedback] = useState([]);
 
   const handledelete = (id) => {
-    setfeedback(feedback.filter((item) => item.id !== id));
+    fetch("http://localhost:5000/feedbacks/" + id, { method: 'DELETE' })
+      .then(
+        (res) => {
+          res.json().then(
+            (result) => {
+              setfeedback(feedback.filter((item) => item.id !== id));
+              alert("feedback added with success")
+              console.log("feedback deleted with success");
+              console.log(result)
+            }
+          )
+        },
+        (error) => {
+          console.log("oooops there is an error !");
+          console.log(error)
+        }
+      )
   };
+
+
 
   // handle add action
   const handleadd = (rating1, feed) => {
@@ -28,7 +53,30 @@ export const FeedbackProvider = ({ children }) => {
       rating: rating1,
       text: feed,
     };
-    setfeedback([newfeed, ...feedback]);
+
+    let requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newfeed)
+    };
+
+    fetch("http://localhost:5000/feedbacks/", requestOptions)
+      .then(
+        (res) => {
+          res.json().then(
+            (result) => {
+              alert("feedback added with success")
+              console.log("feedback added with success");
+              console.log(result)
+              setfeedback([newfeed, ...feedback]);
+            }
+          )
+        },
+        (error) => {
+          console.log("oooops there is an error !");
+          console.log(error)
+        }
+      )
   };
 
   const [feedbackEdit, setfeedbackEdit] = useState({
@@ -38,15 +86,35 @@ export const FeedbackProvider = ({ children }) => {
 
   // handle update action
   const handleupdate = (id, updateditem) => {
-    console.log(id, updateditem);
     const newfeed = {
       id: id,
       rating: updateditem.rating,
       text: updateditem.Text,
     };
 
-    setfeedback(feedback.map((item) => (item.id === id ? newfeed : item)));
+    let requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newfeed)
+    };
+
+    fetch("http://localhost:5000/feedbacks/"+id, requestOptions)
+      .then(
+        (res) => {
+          res.json().then(
+            (result) => {
+              alert("feedback Updated with success")
+              setfeedback(feedback.map((item) => (item.id === id ? newfeed : item)));
+            }
+          )
+        },
+        (error) => {
+          alert("oooops there is an error !");
+        }
+      )
+
   };
+
   //set item to be edited
   const editfeedback = (item) => {
     setfeedbackEdit({
@@ -63,7 +131,8 @@ export const FeedbackProvider = ({ children }) => {
         feedback,
         editfeedback,
         feedbackEdit,
-        handleupdate,
+        handleupdate
+
       }}
     >
       {children}
