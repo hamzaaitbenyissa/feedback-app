@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { v1 } from "uuid";
 
 const FeedbackContext = createContext();
@@ -33,23 +34,39 @@ export const FeedbackProvider = ({ children }) => {
 
 
   const handledelete = (id) => {
-    fetch("http://localhost:5000/feedbacks/" + id, { method: 'DELETE' })
-      .then(
-        (res) => {
-          res.json().then(
-            (result) => {
-              setfeedback(feedback.filter((item) => item.id !== id));
-              alert("feedback added with success")
-              console.log("feedback deleted with success");
-              console.log(result)
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch("http://localhost:5000/feedbacks/" + id, { method: 'DELETE' })
+          .then(
+            (res) => {
+              res.json().then(
+                (result) => {
+                  setfeedback(feedback.filter((item) => item.id !== id));
+                }
+              )
+            },
+            (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
+              })
             }
           )
-        },
-        (error) => {
-          console.log("oooops there is an error !");
-          console.log(error)
-        }
-      )
+      }
+    })
+
+
   };
 
 
@@ -73,16 +90,17 @@ export const FeedbackProvider = ({ children }) => {
         (res) => {
           res.json().then(
             (result) => {
-              alert("feedback added with success")
-              console.log("feedback added with success");
-              console.log(result)
               setfeedback([newfeed, ...feedback]);
             }
           )
         },
         (error) => {
-          console.log("oooops there is an error !");
-          console.log(error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: '<a href="">Why do I have this issue?</a>'
+          })
         }
       )
   };
@@ -111,13 +129,17 @@ export const FeedbackProvider = ({ children }) => {
         (res) => {
           res.json().then(
             (result) => {
-              alert("feedback Updated with success")
               setfeedback(feedback.map((item) => (item.id === id ? newfeed : item)));
             }
           )
         },
         (error) => {
-          alert("oooops there is an error !");
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: '<a href="">Why do I have this issue?</a>'
+          })
         }
       )
 
