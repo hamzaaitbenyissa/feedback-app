@@ -11,7 +11,7 @@ export const FeedbackProvider = ({ children }) => {
 
 
   useEffect(() => {
-    fetch("http://localhost:5000/feedbacks")
+    fetch("/feedbacks")
       .then(
         (res) => {
           res.json()
@@ -45,7 +45,7 @@ export const FeedbackProvider = ({ children }) => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch("http://localhost:5000/feedbacks/" + id, { method: 'DELETE' })
+        fetch("/feedbacks/" + id, { method: 'DELETE' })
           .then(
             (res) => {
               res.json().then(
@@ -85,7 +85,7 @@ export const FeedbackProvider = ({ children }) => {
       body: JSON.stringify(newfeed)
     };
 
-    fetch("http://localhost:5000/feedbacks/", requestOptions)
+    fetch("/feedbacks/", requestOptions)
       .then(
         (res) => {
           res.json().then(
@@ -124,7 +124,7 @@ export const FeedbackProvider = ({ children }) => {
       body: JSON.stringify(newfeed)
     };
 
-    fetch("http://localhost:5000/feedbacks/" + id, requestOptions)
+    fetch("/feedbacks/" + id, requestOptions)
       .then(
         (res) => {
           res.json().then(
