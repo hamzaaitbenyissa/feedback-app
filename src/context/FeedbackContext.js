@@ -4,6 +4,8 @@ import { v1 } from "uuid";
 
 const FeedbackContext = createContext();
 
+const API_URL=process.env.REACT_APP_API_URL
+
 export const FeedbackProvider = ({ children }) => {
 
   const [feedback, setfeedback] = useState([]);
@@ -11,7 +13,7 @@ export const FeedbackProvider = ({ children }) => {
 
 
   useEffect(() => {
-    fetch("/feedbacks")
+    fetch(API_URL+"/feedbacks")
       .then(
         (res) => {
           res.json()
@@ -45,7 +47,7 @@ export const FeedbackProvider = ({ children }) => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch("/feedbacks/" + id, { method: 'DELETE' })
+        fetch(API_URL+"/feedbacks/" + id, { method: 'DELETE' })
           .then(
             (res) => {
               res.json().then(
@@ -85,7 +87,7 @@ export const FeedbackProvider = ({ children }) => {
       body: JSON.stringify(newfeed)
     };
 
-    fetch("/feedbacks/", requestOptions)
+    fetch(API_URL+"/feedbacks/", requestOptions)
       .then(
         (res) => {
           res.json().then(
@@ -124,7 +126,7 @@ export const FeedbackProvider = ({ children }) => {
       body: JSON.stringify(newfeed)
     };
 
-    fetch("/feedbacks/" + id, requestOptions)
+    fetch(API_URL+"/feedbacks/" + id, requestOptions)
       .then(
         (res) => {
           res.json().then(
