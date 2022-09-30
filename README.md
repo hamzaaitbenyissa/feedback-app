@@ -1,15 +1,18 @@
 # FeedBack App Using React 
 
 
-## You want to test it ?
+## You want to test it ? 
+Ok you check it using this link :
+https://feedback-app-hamzaaitbenyissa.vercel.app <br/>
 
-Ok clone it , then run the following commands:
+OR<br/>
+
+clone it , then run the following commands:
 
 ### `npm install`
 
 ### `npm start`
 
-Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### Demo 
